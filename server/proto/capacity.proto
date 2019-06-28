@@ -1,0 +1,20 @@
+syntax = "proto3";
+package capacity;
+
+message Capacity {
+  // health is relative to the likelyhood of resource availability causing an error
+  enum HealthState {
+    UNHEALTHY = 0;
+    HEALTHY = 1;
+  }
+
+  HealthState state = 1;
+  HealthState projected = 2;
+
+  message Resource {
+    string name = 1;
+    string value = 2;
+  }
+  repeated Resource schedule = 3;
+};
+
