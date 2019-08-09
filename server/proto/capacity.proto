@@ -1,20 +1,46 @@
 syntax = "proto3";
 package capacity;
+import "google/protobuf/wrappers.proto";
 
-message Capacity {
-  // health is relative to the likelyhood of resource availability causing an error
-  enum HealthState {
-    UNHEALTHY = 0;
-    HEALTHY = 1;
-  }
+service CapacityService {
+  rpc GetHealth(HealthCheck) returns (Health);
+  rpc GetToleranceFor(Metrics) returns (Health);
+  rpc GetToleranceModel(google.protobuf.StringValue) returns (ToleranceModel);
+  rpc AddToleranceModel(google.protobuf.StringValue) returns (google.protobuf.BoolValue);
+  rpc GetMetrics(google.protobuf.StringValue) returns (stream Metric);
+}
 
-  HealthState state = 1;
-  HealthState projected = 2;
+// OK/HEALTHY
+// WARNING
+// FAIL/UNHEALTHY
+enum State {
+  UNHEALTHY = 0;
+  WARNING = 1;
+  HEALTHY = 2;
+}
 
-  message Resource {
-    string name = 1;
-    string value = 2;
-  }
-  repeated Resource schedule = 3;
-};
+message HealthCheck {
+}
 
+message Health {
+  State state = 1;
+}
+
+message Metrics {
+  repeated Metric measurements = 1;
+}
+
+message Metric {
+  string name = 1;
+  string value = 2;
+}
+
+message ResourceTolerance {
+  string name = 1;
+  float utilization = 2;
+}
+
+message ToleranceModel {
+  string name = 1;
+  repeated ResourceTolerance resources = 2;
+}
