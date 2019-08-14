@@ -1,11 +1,10 @@
 // Copyright 2019 RHK Development <dev@rosskeen.house>. All rights reserved.
-
-package main
+package capacity;
 
 import (
-  "github.com/rosskeenhouse/capacity/server"
+  "testing"
 )
 
-func main() {
-
+func TestServer(m *testing.M) {
+  server := New()
 }

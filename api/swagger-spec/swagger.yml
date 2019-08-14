@@ -1,0 +1,54 @@
+info:
+  description: Capacity protocol
+  title: Capacity protocol
+  version: 0.0.1
+paths:
+  /health:
+    get:
+      summary: "Get health state"
+      produces:
+        - "application/json"
+      responses:
+        200:
+          description: "health state"
+          schema:
+            $ref: "#/definitions/health"
+        400:
+          description: "State unhealthy"
+definitions:
+  health:
+    type: object
+    required:
+      - state
+    properties:
+      state:
+        type: string
+  metric:
+    type: object
+    required:
+      - name
+      - value
+    properties:
+      name:
+        type: string
+      value:
+        type: string
+  tolerancemodel:
+    type: object
+    required:
+      - name
+    properties:
+      id:
+        type: integer
+        format: int64
+        readOnly: true
+      name:
+        type: string
+        minLength: 1
+consumes:
+- application/house.rosskeen.capacity.v1+json
+produces:
+- application/house.rosskeen.capacity.v1+json
+schemes:
+- https
+swagger: "2.0"

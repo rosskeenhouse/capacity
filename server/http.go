@@ -2,12 +2,14 @@ package main
 
 import (
     "fmt"
+    "time"
     "github.com/julienschmidt/httprouter"
     "net/http"
     "log"
 //    "encoding/json"
     "github.com/golang/protobuf/jsonpb"
     capacity_protocol "github.com/rosskeenhouse/capacity/server/proto"
+//    "github.com/rosskeenhouse/capacity/metrics"
 )
 
 func Health(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
@@ -22,6 +24,9 @@ func Health(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 }
 
 func main() {
+    c := NewConfig("config.yaml")
+    c.Load()
+
     router := httprouter.New()
     router.GET("/", Health)
     router.GET("/health/:name", Health)
